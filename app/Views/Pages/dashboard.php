@@ -3,8 +3,6 @@
 <?= $this->section('body-content') ?>
 <?= $this->include('Components/header') ?>
 
-
-
 <?php
 
 use App\Models\UserModel;
@@ -30,26 +28,17 @@ if (session()->get('fail')) {
 ?>
 
 
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <a href="/create-asset" class="btn btn-primary shadow-sm">Create Asset</a>
-
-        </div>
-    </div>
-</div>
-
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <?php
         if (isset($assets)) {
             if (count($assets) > 0) {
                 // foreach ($assets as $key => $asset) {
         ?>
-                <table class="table table-hover  overflow-hidden">
+                <table id="asset-table">
                     <thead>
                         <tr>
-                            <th >name</th>
+                            <th >Name</th>
                             <th >description</th>
                             <th >installationYear</th>
                             <th >expectedUsefulLife</th>
@@ -69,7 +58,12 @@ if (session()->get('fail')) {
                         foreach ($assets as $key => $asset) {
                         ?>
                             <tr>
-                                <td ><?= $asset['name'] ?? "" ?></td>
+                                <td >
+
+                                <a class="text-decoration-none" href="/history/<?= $asset['id'] ?? "" ?>">
+                                <?= $asset['name'] ?? "" ?>
+                                </a>
+                                </td>
                                 <td ><?= $asset['description'] ?? "" ?></td>
                                 <td ><?= $asset['installationYear'] ?? "" ?></td>
                                 <td ><?= $asset['expectedUsefulLife'] ?? "" ?></td>
@@ -89,6 +83,7 @@ if (session()->get('fail')) {
                                 <td ><?= $asset['updatedAt'] ?></td>
                                 <td>
                                     <a href="/delete-asset/<?= $asset['id'] ?>" class="btn btn-primary btn-sm">Delete</a>
+                                    <a href="/edit-asset/<?= $asset['id'] ?>" class="btn btn-primary btn-sm">Edit</a>
                                 </td>
 
 
@@ -107,5 +102,10 @@ if (session()->get('fail')) {
     </div>
 </div>
 
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#asset-table').DataTable();
+});
+</script>
 
 <?= $this->endSection() ?>

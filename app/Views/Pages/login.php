@@ -3,7 +3,7 @@
 <?= $this->section('body-content') ?>
 
 <?= $this->include('Components/header') ?>
-<!-- 
+
 <?php
 
 if(session()->get('success')){
@@ -26,7 +26,7 @@ if(session()->get('fail'))
     <?php
 }
 
-?> -->
+?>
 
 
 <div class="container">

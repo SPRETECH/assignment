@@ -2,11 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
 use App\Models\AssetModel;
+use CodeIgniter\RESTful\ResourceController;
 
-class AssetHistoryController extends BaseController
+class AssetHistoryControllerA extends ResourceController
 {
+    protected $db, $session, $validation;
 
     public function __construct()
     {
@@ -21,6 +22,8 @@ class AssetHistoryController extends BaseController
 
     public function index($id = 0)
     {
+        $result = [];
+
         if($id > 0){
             $assetModel = new AssetModel();
 
@@ -28,11 +31,14 @@ class AssetHistoryController extends BaseController
             $history = $assetModel->getHistory($id);
 
             if($history){
-                return view('Pages/history', compact("history", "asset"));
-            }else{
-                return view('Pages/history');
+                $result = [
+                    'history' => $history,
+                    'asset' => $asset,
+                ];
             }
             
         }
+
+        return $this->respond($result);
     }
 }

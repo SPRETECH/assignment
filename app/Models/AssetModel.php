@@ -52,4 +52,44 @@ class AssetModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getHistory($id = 0): array{
+        if($id > 0){
+            $data = [];
+            $historyModel = new AssetHistoryModel();
+
+            $history = $historyModel->where('assetId', $id)->findAll();
+
+            if($history){
+                $data = $history;
+            }
+
+            return $data;
+        }
+
+    }
+
+    public function hasForeignRelation($id): bool{
+        if($id > 0){
+            $data = [];
+            $historyModel = new AssetHistoryModel();
+
+            $history = $historyModel->where('assetId', $id)->findAll();
+
+            if($history){
+                $data = $history;
+            }
+
+            if(count($data) > 0){
+                return true;
+            }else{
+                return false;
+            }
+            
+        }
+    }
+
+    public function getUser($id){
+        $userModel = new UserModel();
+    }
 }

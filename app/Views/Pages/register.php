@@ -14,7 +14,9 @@ if(session()->get('success')){
     </div>
     <?php
 
-}else{
+}
+if(session()->get('fail'))
+{
 
     ?>
     <div class="alert alert-danger" role="alert">

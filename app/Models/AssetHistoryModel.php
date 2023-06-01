@@ -14,7 +14,12 @@ class AssetHistoryModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        
+        'id',
+        'assetId',
+        'action',
+        'userId',
+        'updatedAt',
+        'createdAt',
     ];
 
     // Dates
@@ -40,4 +45,16 @@ class AssetHistoryModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    public function getUser($id = 0): array{
+        $userModel = new UserModel();
+        $data = [];
+        
+        $user = $userModel->find($id);
+
+        if($user){
+            $data = $user;
+        }
+        return $data;
+    }
 }

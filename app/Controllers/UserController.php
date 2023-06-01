@@ -64,33 +64,51 @@ class UserController extends BaseController
 
         $data = $this->request->getVar();
         $session = $this->session;
+        $validation = $this->validation;
 
         $users = new UserModel();
 
         $rules = [
             'name' => 'required',
-            'email' => 'required|valid_email',
+            'email' => 'required|valid_email|unique',
             'password' => 'required|matches[password]',
             'confpassword'    => 'required|matches[password]',
         ];
 
-        $record['name'] = $data['name'];
-        $record['email'] = $data['email'];
-        $record['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+        if (! $validation->setRules($rules)) {
+            print_r($this->validator);
+        }else{
 
-        if(count($record) > 0){
-            $result = $users->insert($record);
-            if($result){
-
-                $session->setFlashdata('success' , "User created Successfully");
-
-                return redirect()->to(base_url("/register"));
-            }else{
-                $session->setFlashdata('success' , "User not created");
-
-                return redirect()->to(base_url("/register"));
+            $record['name'] = $data['name'];
+            $record['email'] = $data['email'];
+            $record['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+    
+            if(count($record) > 0){
+                $result = $users->insert($record);
+                if($result){
+    
+                    $session->setFlashdata('success' , "User created Successfully");
+    
+                    return redirect()->to(base_url("/register"));
+                }else{
+                    $session->setFlashdata('success' , "User not created");
+    
+                    return redirect()->to(base_url("/register"));
+                }
             }
         }
 
+
+
+    }
+
+    public function logout(){
+        if(session()->get('id')){
+            $session = $this->session;
+
+            $session->destroy();
+            
+            return redirect()->to(base_url('/'));
+        }
     }
 }
