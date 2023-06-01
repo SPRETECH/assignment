@@ -14,7 +14,9 @@ if(session()->get('success')){
     </div>
     <?php
 
-}else{
+}
+if(session()->get('fail'))
+{
 
     ?>
     <div class="alert alert-danger" role="alert">
@@ -29,7 +31,7 @@ if(session()->get('success')){
 
 <div class="container">
     <div class="row justify-content-md-center">
-        <div class="col-6">
+        <div class="col-md-6 col-lg-6 col-sm-12">
             <h1 class="text-center">Login</h1>
             <br>
             <?php if (isset($validation)) : ?>

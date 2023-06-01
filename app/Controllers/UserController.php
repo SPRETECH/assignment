@@ -33,7 +33,13 @@ class UserController extends BaseController
             if(count($user) > 0){
 
                 if(password_verify($data['password'], $user['password'])){
-                    return view('Pages/home', compact("user"));
+
+                    $session->set([
+                        'email' => $user['email'],
+                        'id' => $user['id']
+                    ]);
+
+                    return redirect()->to(base_url('/dashboard'));
                 }else{
                     $session->setFlashdata('fail' , "Enter correct password!");
                     return redirect()->to(base_url("/login"));

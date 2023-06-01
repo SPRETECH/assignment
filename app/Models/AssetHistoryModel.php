@@ -7,13 +7,15 @@ use CodeIgniter\Model;
 class AssetHistoryModel extends Model
 {
     protected $DBGroup          = 'default';
-    protected $table            = 'assethistories';
+    protected $table            = 'assethistory';
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        
+    ];
 
     // Dates
     protected $useTimestamps = false;

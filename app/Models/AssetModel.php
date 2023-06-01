@@ -13,7 +13,21 @@ class AssetModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id',
+        'name',
+        'description',
+        'installationYear',
+        'expectedUsefulLife',
+        'renewableYear',
+        'condition',
+        'quantity', 
+        'userId',
+        'unitCost',
+        'estimatedCost',
+        'createdAt',
+        'updatedAt',
+    ];
 
     // Dates
     protected $useTimestamps = false;

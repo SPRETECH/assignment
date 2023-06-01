@@ -11,14 +11,6 @@ class UserModel extends Model
     protected $table = 'users';
     protected $allowedFields = ['name','email','password', 'checkbox','created_at','updated_at'];
 
-    // public function getData(){
-    //     if($this->db){
-    //         $query = 'SELECT * from users';
-    //         $users = $this->db->query($query);
-    //         return $users->getResult();
-    //     }
-    // }
-
     // protected $DBGroup          = 'default';
     // protected $table            = 'users';
     // protected $primaryKey       = 'id';

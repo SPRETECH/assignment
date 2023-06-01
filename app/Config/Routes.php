@@ -37,7 +37,11 @@ $routes->get('/register', 'Home::register');
 $routes->post('/register-user' , 'UserController::register');
 $routes->post('/user-login', 'UserController::login');
 
+$routes->get('/dashboard' , 'Home::dashboard');
+
 $routes->get('/create-asset', 'AssetController::index');
+$routes->post('/save-asset' , 'AssetController::saveAsset');
+$route->get('/delete-asset/(:num)', 'AssetController::deleteAsset');
 
 /*
  * --------------------------------------------------------------------
