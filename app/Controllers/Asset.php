@@ -2,12 +2,15 @@
 
 namespace App\Controllers;
 
-use App\Controllers\BaseController;
 use App\Models\AssetHistoryModel;
 use App\Models\AssetModel;
+use CodeIgniter\RESTful\ResourceController;
 
-class AssetController extends BaseController
+class Asset extends ResourceController
 {
+ 
+    protected $db, $session, $validation;
+
     public function __construct()
     {
         $this->db = \Config\Database::connect();
@@ -18,14 +21,19 @@ class AssetController extends BaseController
 
     }
 
-    public function index()
-    {
-        return view('Pages/create-asset');
+    public function index(){
+        $assetModel = new AssetModel();
+
+        $data['assets'] = $assetModel->findAll();
+
+        return $this->respond($data);
     }
 
     public function saveAsset(){
 
         $record = [];
+
+        $result = [];
 
         $request = $this->request->getVar();
         $session = $this->session;
@@ -47,43 +55,78 @@ class AssetController extends BaseController
             $record['estimatedCost'] = $request['estimated_cost'];
 
             if(count($record) > 0){
-                $assetModel->insert($record);
-                $session->setFlashdata('success' , "Asset created successfully!");
-                return redirect()->to(base_url("/dashboard"));
+
+                $inserted = $assetModel->insert($record);
+
+                if($inserted){
+                    $result = [
+                        'status' =>'success',
+                        'message' => 'Records inserted successfully.'
+                    ];
+                }else{
+                    $result = [
+                        'status' =>'fail',
+                        'message' => 'Something went wrong contact support!.'
+                    ];
+                }
+
             }else{
-                $session->setFlashdata('fail' , "Something went wrong!");
-                return redirect()->to(base_url("/create-asset"));
+                $result = [
+                    'status' =>'fail',
+                    'message' => 'Something went wrong contact support!.'
+                ];
             }
             
         }else{
-            $session->setFlashdata('fail' , "you must login first!");
-            return redirect()->to(base_url("/login"));
+            $result = [
+                'status' =>'fail',
+                'message' => 'you must login first!.'
+            ];
         }
+
+        return $this->respond($result);
     }
 
+
     public function deleteAsset($id = 0){
+        $result = [];
+
         if($id > 0){
             $assetModel = new AssetModel();
             $session = $this->session;
 
             if($assetModel->find($id)){
                 if($assetModel->hasForeignRelation($id)){
-                    $session->setFlashdata('fail' , "Record has Foreign History data!");
-                    return redirect()->to(base_url("/dashboard"));
+
+                    $result = [
+                        'status' => 'fail',
+                        'message' => 'Record has Foreign History data!'
+                    ];
+
                 }else{
                     $assetModel->delete($id);
-                    $session->setFlashdata('success' , "Asset deleted successfully!");
-                    return redirect()->to(base_url("/dashboard"));
+                    $result = [
+                        'status' => 'success',
+                        'message' => 'Asset deleted successfully!'
+                    ];
+
                 }
               
             }else{
-                $session->setFlashdata('fail' , "Record not found!");
-                return redirect()->to(base_url("/dashboard"));
+                $result = [
+                    'status' => 'fail',
+                    'message' => 'Record not found!'
+                ];
+
             }
         }
+        return $this->respond($result);
     }
 
     public function editAsset($id = 0){
+
+        $result = [];
+
         if($id > 0){
             $assetModel = new AssetModel();
             $session = $this->session;
@@ -91,16 +134,26 @@ class AssetController extends BaseController
             if($assetModel->find($id)){
                 $asset = $assetModel->find($id);
 
-                return view('Pages/edit-asset', compact("asset"));
+                $result = [
+                    'status' => 'success',
+                    'asset' => $asset,
+                ];
 
             }else{
-                $session->setFlashdata('fail' , "Record not found!");
-                return redirect()->to(base_url("/dashboard"));
+                $result = [
+                    'status' => 'fail',
+                    'message' => "Record not found!",
+                ];
+
             }
         }
+        return $this->respond($result);
     }
 
     public function saveEdit(){
+
+        $result = [];
+
         $request = $this->request->getVar();
         $record = [];
 
@@ -136,14 +189,21 @@ class AssetController extends BaseController
 
                 $assetHistory->insert($history);
 
-                $session->setFlashdata('success' , "Asset Updated successfully!");
-                return redirect()->to(base_url("/dashboard"));
+                $result = [
+                    'status' => 'success',
+                    'message' => "Asset Updated successfully!",
+                ];
             }
             
         }else{
-            $session->setFlashdata('fail' , "Something went wrong!");
-            return redirect()->to(base_url("/edit-asset"));
+            $result = [
+                'status' => 'fail',
+                'message' => "Something went wrong!",
+            ];
+    
         }
+
+        return $this->respond($result);
 
     }
 }

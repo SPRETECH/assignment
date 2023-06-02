@@ -3,9 +3,10 @@
 namespace App\Controllers;
 
 use App\Models\UserModel;
+use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
 
-class UserControllerA extends ResourceController
+class User extends ResourceController
 {
     protected $db, $session, $validation;
 
@@ -19,7 +20,16 @@ class UserControllerA extends ResourceController
 
     }
 
+    public function index(){
+        $userModel = new UserModel();
+
+        $data['users'] = $userModel->findAll();
+
+        return $this->respond($data);
+    }
+
     public function login(){
+        
         $request = $this->request->getVar();
         $session = $this->session;
 
@@ -46,23 +56,17 @@ class UserControllerA extends ResourceController
                         'status' => 'success',
                         'message' => 'User Auth Successfully.'
                     ];
-                    // return redirect()->to(base_url('/dashboard'));
                 }else{
-                    // $session->setFlashdata('fail' , "Enter correct password!");
-                    // return redirect()->to(base_url("/login"));
 
                     $result = [
                         'status' => 'fail',
-                        'message' => 'Enter Correct password'
+                        'message' => 'Enter Correct password',
+                        
                     ]; 
                 }
 
-                // echo "<pre>";
-                // print_r($user);
 
             }else{
-                // $session->setFlashdata('fail' , "Email is not registered!");
-                // return redirect()->to(base_url("/login"));
                 $result = [
                     'status' => 'fail',
                     'message' => 'Email is not registered!'
@@ -129,7 +133,7 @@ class UserControllerA extends ResourceController
                 }
             }
         }
-        
+
             
         return $this->respond($result);
 

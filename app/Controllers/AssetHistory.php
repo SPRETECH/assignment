@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\AssetModel;
 use CodeIgniter\RESTful\ResourceController;
 
-class AssetHistoryControllerA extends ResourceController
+class AssetHistory extends ResourceController
 {
     protected $db, $session, $validation;
 
@@ -26,19 +26,8 @@ class AssetHistoryControllerA extends ResourceController
 
         if($id > 0){
             $assetModel = new AssetModel();
-
-            $asset = $assetModel->find($id);
-            $history = $assetModel->getHistory($id);
-
-            if($history){
-                $result = [
-                    'history' => $history,
-                    'asset' => $asset,
-                ];
-            }
-            
+            $result['history'] = $assetModel->getHistory($id) ?? [];
         }
-
         return $this->respond($result);
     }
 }

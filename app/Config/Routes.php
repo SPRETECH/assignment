@@ -31,34 +31,25 @@ $routes->set404Override();
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-// changed to APIs
-$routes->post('/register-user' , 'UserControllerA::register');
-$routes->post('/user-login', 'UserControllerA::login');
-$routes->post('/save-asset' , 'AssetControllerA::saveAsset');
-$routes->get('/delete-asset/(:num)', 'AssetControllerA::deleteAsset/$1');
-$routes->get('/edit-asset/(:num)', 'AssetControllerA::editAsset/$1');
-$routes->post('/save-edit', 'AssetControllerA::saveEdit');
-$routes->get('/history/(:num)', 'AssetHistoryControllerA::index/$1');
+$routes->get('/app', 'Home::index');
+
+$routes->get('users', 'User::index');
+$routes->post('users/register-user' , 'User::register');
+$routes->post('users/user-login', 'User::login');
+
+$routes->get('asset/get-assets' , 'Asset::index');
+$routes->post('asset/save-asset' , 'Asset::saveAsset');
+$routes->get('asset/delete-asset/(:num)', 'Asset::deleteAsset/$1');
+$routes->get('asset/edit-asset/(:num)', 'Asset::editAsset/$1');
+$routes->post('asset/save-edit', 'Asset::saveEdit');
+
+$routes->get('asset-history/(:num)', 'AssetHistory::index/$1');
 
 
-$routes->get('/', 'Home::index');
-$routes->get('/register', 'Home::register');
-
-
-$routes->get('/dashboard' , 'Home::dashboard');
-$routes->get('/create-asset', 'AssetController::index');
-
-// $routes->post('/save-asset' , 'AssetController::saveAsset');
-// $routes->get('/delete-asset/(:num)', 'AssetController::deleteAsset/$1');
-// $routes->get('/edit-asset/(:num)', 'AssetController::editAsset/$1');
-// $routes->post('/save-edit', 'AssetController::saveEdit');
-
-// $routes->get('/history/(:num)', 'AssetHistoryController::index/$1');
-
-
-
-$routes->get('/logout' , 'UserController::logout');
-
+$routes->get('/app/(.*)', function()
+{
+    return view( 'main' );
+});
 /*
  * --------------------------------------------------------------------
  * Additional Routing
