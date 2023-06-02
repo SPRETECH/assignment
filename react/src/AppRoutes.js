@@ -14,10 +14,12 @@ const AppRoutes = () => {
         <>
         <Routes>
         <Route exact path={"/app"} Component={Home} key={"home"} />
-        <Route exact path={"/app/register"} element={<Register />} />
+        <Route exact path={"/app/register"} Component={Register} />
         <Route exact path={"/app/login"} Component={Login}  />
-        <Route exact path={"create-asset"} Component={CreateAsset} />
-        <Route exact path={"edit-asset"} Component={EditAsset} />
+        <Route exact path={"/app/create-asset"} Component={CreateAsset} />
+        <Route exact path={"/app/edit-asset/:id"} Component={EditAsset} />
+
+        /app/edit-asset
         </Routes>
         </>
     );

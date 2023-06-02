@@ -37,7 +37,7 @@ $routes->get('users', 'User::index');
 $routes->post('users/register-user' , 'User::register');
 $routes->post('users/user-login', 'User::login');
 
-$routes->get('asset/get-assets' , 'Asset::index');
+$routes->get('asset' , 'Asset::index');
 $routes->post('asset/save-asset' , 'Asset::saveAsset');
 $routes->get('asset/delete-asset/(:num)', 'Asset::deleteAsset/$1');
 $routes->get('asset/edit-asset/(:num)', 'Asset::editAsset/$1');

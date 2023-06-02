@@ -54,7 +54,8 @@ class User extends ResourceController
                     
                     $result = [
                         'status' => 'success',
-                        'message' => 'User Auth Successfully.'
+                        'message' => 'User Auth Successfully.',
+                        'userId' => $user['id']
                     ];
                 }else{
 

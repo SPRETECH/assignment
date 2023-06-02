@@ -11,6 +11,8 @@ const Header = () => {
         <div>
         <Link class="btn btn-primary btn-sm" to={{ pathname: "/app/login" }}>Login</Link>
         <Link class="btn btn-primary btn-sm" to={{ pathname: "/app/register" }}>Register</Link>
+
+        <Link class="btn btn-primary btn-sm" to={{ pathname: "/app/create-asset" }}>Create Asset</Link>
         
         {/* <a class="btn btn-primary btn-sm ms-2" href="/app/register">Register</a> */}
         </div>
